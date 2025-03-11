@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export const modalContext=createContext(false);
 
-export default function SignupModal({children}){
+export default function SignupModalContext({children}){
     const [showModal,setShowModal]=useState(false);
     return(
     

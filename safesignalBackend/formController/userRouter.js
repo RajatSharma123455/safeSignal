@@ -16,7 +16,11 @@ userRouter.post("/signup/victim", async (req, res) => {
 
     const exist = await victim.findOne({ email });
     if (exist) {
-      throw new Error("User already register");
+      throw new Error("this email is already exist");
+    }
+    const isMobileExist = await volunteer.findOne({mobile});
+    if (isMobileExist) {
+      throw new Error("This mobile is already register");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -39,7 +43,11 @@ userRouter.post("/signup/volunteer", async (req, res) => {
 
     const exist = await volunteer.findOne({ email });
     if (exist) {
-      throw new Error("User already register");
+      throw new Error("this email is already exist");
+    }
+    const isMobileExist = await volunteer.findOne({mobile});
+    if (isMobileExist) {
+      throw new Error("This mobile is already register");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

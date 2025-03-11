@@ -1,11 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { modalContext } from "./utils/modalContext";
-import volunteer from "../assets/images-disaster/volunteerHelp2.webp";
+import { modalContext } from "../utils/signUpModalContext";
+import volunteer1 from "../assets/images-disaster/signupvolunteer.svg"
+import volunteer2 from "../assets/images-disaster/signupcall.svg"
 import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const SignUpVolunteer = () => {
   const { showModal, setShowModal } = useContext(modalContext);
   const [validationError, setValidationError] = useState({});
+  const [userType, setUserType] = useState("victim");
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex =
     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -26,7 +30,7 @@ const SignUpVolunteer = () => {
     }
   });
 
-  async function SignupDataPosting() {
+  async function SignupVolunteer() {
     try {
       const response = await axios.post(
         "http://localhost:3000/signup/volunteer",
@@ -34,15 +38,28 @@ const SignUpVolunteer = () => {
       );
       if (response.status === 200) {
         console.log("successfully submitted", response.data);
+       toast.success("successfully submitted");
       }
     } catch (error) {
-      if (error.response) {
-        console.error("error:", error.response.data);
-      } else if (error.request) {
-        console.error("No response received from server");
-      } else {
-        console.error(error.message);
+      
+       toast.error(error.response.data.error);
+       console.log(error)
+    }
+  }
+  async function SignupVictim() {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/signup/victim",
+        signupForm
+      );
+      if (response.status === 200) {
+        console.log("successfully submitted", response.data);
+       toast.success("successfully submitted");
       }
+    } catch (error) {
+      
+       toast.error(error.response.data.error);
+       console.log(error)
     }
   }
 
@@ -51,7 +68,7 @@ const SignUpVolunteer = () => {
     if (
       !signupForm.name ||
       typeof signupForm.name !== "string" ||
-      signupForm.name.trim().length === 0
+       signupForm.name.trim().length < 4 || signupForm.name.trim().length > 50
     ) {
       countError.name = "Enter the valid Name!";
     }
@@ -59,8 +76,7 @@ const SignUpVolunteer = () => {
       countError.email = "Enter the valid email!";
     }
     if (!signupForm.password || !passwordRegex.test(signupForm.password)) {
-      countError.password =
-        "Invalid Credentials";
+      countError.password = "Invalid Credentials";
     }
     if (!signupForm.mobile || !mobileRegex.test(signupForm.mobile.trim())) {
       countError.mobile = "Enter a valid 10-digit mobile number!";
@@ -69,14 +85,26 @@ const SignUpVolunteer = () => {
     return Object.keys(countError).length === 0;
   }
 
+  const HandleOnClick = (buttonType) => {
+    setUserType(buttonType);
+    
+    setSignupForm({ name: "", email: "", password: "", mobile: "" });
+  };
+
   const HandleChange = (e) => {
     setSignupForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
   const HandleSubmit = (e) => {
     e.preventDefault();
 
     if (Validation()) {
-      SignupDataPosting();
+      if (userType === "victim") {
+        SignupVictim();
+      } else {
+        SignupVolunteer();
+      }
+      
       alert("signup successfully");
       setSignupForm({
         name: "",
@@ -93,26 +121,44 @@ const SignUpVolunteer = () => {
       <div className="bg-white rounded-xl w-2/3 h-[90%] flex">
         <div className="flex-1 ">
           <img
-            src={volunteer}
+            src={userType==="volunteer"?volunteer1 :volunteer2 }
             alt="volunteer"
-            className="h-full rounded-tl-xl rounded-bl-xl"
+            className="h-full rounded-tl-xl rounded-bl-xl object-fill w-full opacity-80 "
           />
         </div>
 
-        <div className="flex-1 flex flex-col items-center p-4 pt-6 gap-8">
-          <div className="flex flex-row w-full items-center justify-around  h-[3rem]">
-            <div className="h-full flex flex-0.6 items-center ">
-              <h2 className="text-lg text-white pt-1 font-semibold bg-sky-400 h-4/5 w-80 transform shadow-sm text-center rounded-lg">
-                Join as a Volunteer
-              </h2>
+        <div className="flex-1 flex flex-col items-center p-4 pt-2 gap-6">
+          <div className="flex flex-col w-full">
+            <div className="flex flex-row-reverse w-full">
+              <button
+                className="transition-all transform border-black bg-gray-200 h-6 w-6 rounded-full"
+                onClick={() => setShowModal(false)}
+              >
+                ✕
+              </button>
             </div>
-            <button
-              className="transition-all transform border-black flex-0.2 bg-gray-200 h-8 w-8 rounded-full"
-              onClick={() => setShowModal(false)}
-            >
-              ✕
-            </button>
+
+            <div className="h-12 flex w-full items-center justify-center  ">
+              <button
+                data-type="victim"
+                onClick={() => HandleOnClick("victim")}
+                className={`w-[40%] h-full text-lg text-slate-800 font-semibold bg-[#F5F5F5] 
+                           will-change-transform duration-200 ease-out shadow-sm text-center rounded-tl-lg rounded-bl-lg 
+                           ${userType === "victim" ? "bg-[#37B6FF] text-white" : ""}`} >
+                Victim
+              </button>
+              <button
+                data-type="volunteer"
+                onClick={() => HandleOnClick("volunteer")}
+
+                className={`w-[40%] h-full text-lg text-slate-800 font-semibold bg-[#F5F5F5] 
+                           will-change-transform duration-200 ease-out shadow-sm text-center rounded-tr-lg rounded-br-lg 
+                           ${userType === "volunteer" ? "bg-[#37B6FF] text-white" : ""}`}>
+                Volunteer
+              </button>
+            </div>
           </div>
+
           <form
             onSubmit={HandleSubmit}
             className=" flex flex-col gap-8 transition-transform h-4/5 w-[90%]"
@@ -184,13 +230,10 @@ const SignUpVolunteer = () => {
               </div>
             </div>
             <div className="flex flex-col gap-1 h-[10%]">
-              {" "}
-              <button className="flex items-center justify-center text-lg font-semibold  w-full h-full bg-sky-400 text-white p-4 outline-none rounded-full will-change-transform duration-200 ease-out hover:scale-105  shadow-sm">
+             
+              <button className="flex items-center justify-center text-lg font-semibold  w-full h-full bg-[#37B6FF] text-white p-4 outline-none rounded-full will-change-transform duration-200 ease-out hover:scale-105  shadow-sm">
                 Sign Up
               </button>
-              <div className="flex flex-row-reverse">
-                <a href="/">forgot Password</a>
-              </div>
             </div>
           </form>
         </div>

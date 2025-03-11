@@ -8,7 +8,10 @@ import Navbar from './navbar/index.jsx'
 import { createBrowserRouter,Outlet,RouterProvider } from 'react-router-dom'
 import VictimForm from './victimForm.jsx'
 import VolunteerForm from './VolunteerForm.jsx'
-import SignupModal from './navbar/utils/modalContext.jsx'
+import SignupModal from './utils/signUpModalContext.jsx'
+import { ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import SignUpVolunteer from './navbar/signUpModal.jsx'
 
 const AppLayout=()=>{
  
@@ -17,8 +20,9 @@ const AppLayout=()=>{
     <StrictMode>
     <SignupModal>
     <Navbar/>
-    
+    <SignUpVolunteer/>
     <Outlet/>
+    <ToastContainer/>
     </SignupModal>
   </StrictMode>
   );
