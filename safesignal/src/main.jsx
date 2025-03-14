@@ -12,6 +12,8 @@ import SignupModal from './utils/signUpModalContext.jsx'
 import { ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SignUpVolunteer from './navbar/signUpModal.jsx'
+import LogInModal from './navbar/loginModal.jsx'
+import ResetPassword from "./navbar/resetPassword.jsx"
 
 const AppLayout=()=>{
  
@@ -20,6 +22,7 @@ const AppLayout=()=>{
     <StrictMode>
     <SignupModal>
     <Navbar/>
+    <LogInModal/>
     <SignUpVolunteer/>
     <Outlet/>
     <ToastContainer/>
@@ -45,7 +48,10 @@ const router= createBrowserRouter([
     path:"/volunteer/form",
     element:<VolunteerForm/>
   },
-  
+  {
+    path:"/reset-password/:token",
+    element:<ResetPassword/>
+  },
 ]
 },
 

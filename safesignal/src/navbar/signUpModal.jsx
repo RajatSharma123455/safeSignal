@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 const SignUpVolunteer = () => {
   const { showModal, setShowModal } = useContext(modalContext);
   const [validationError, setValidationError] = useState({});
+  const [loader,setLoader]=useState(false);
   const [userType, setUserType] = useState("victim");
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex =
@@ -28,7 +29,7 @@ const SignUpVolunteer = () => {
     } else {
       document.body.style.overflow = "auto";
     }
-  });
+  },[showModal]);
 
   async function SignupVolunteer() {
     try {
@@ -95,24 +96,27 @@ const SignUpVolunteer = () => {
     setSignupForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const HandleSubmit = (e) => {
+  const HandleSubmit = async (e) => {
     e.preventDefault();
-
+     setLoader(true);
     if (Validation()) {
+      try{
       if (userType === "victim") {
-        SignupVictim();
+       await SignupVictim();
       } else {
-        SignupVolunteer();
+       await SignupVolunteer();
       }
-      
-      alert("signup successfully");
       setSignupForm({
         name: "",
         email: "",
         password: "",
         mobile: "",
       });
-    }
+    }catch(error){
+      console.error("SignupFailed",error.message)
+    } 
+  }
+    setLoader(false);
   };
   if (!showModal) return null;
 
@@ -144,7 +148,7 @@ const SignUpVolunteer = () => {
                 onClick={() => HandleOnClick("victim")}
                 className={`w-[40%] h-full text-lg text-slate-800 font-semibold bg-[#F5F5F5] 
                            will-change-transform duration-200 ease-out shadow-sm text-center rounded-tl-lg rounded-bl-lg 
-                           ${userType === "victim" ? "bg-[#37B6FF] text-white" : ""}`} >
+                           ${userType === "victim" ? "bg-[#38B6FF] text-white" : ""}`} >
                 Victim
               </button>
               <button
@@ -153,14 +157,14 @@ const SignUpVolunteer = () => {
 
                 className={`w-[40%] h-full text-lg text-slate-800 font-semibold bg-[#F5F5F5] 
                            will-change-transform duration-200 ease-out shadow-sm text-center rounded-tr-lg rounded-br-lg 
-                           ${userType === "volunteer" ? "bg-[#37B6FF] text-white" : ""}`}>
+                           ${userType === "volunteer" ? "bg-[#38B6FF] text-white" : ""}`}>
                 Volunteer
               </button>
             </div>
           </div>
 
           <form
-            onSubmit={HandleSubmit}
+            onSubmit={(e)=>HandleSubmit(e)}
             className=" flex flex-col gap-8 transition-transform h-4/5 w-[90%]"
           >
             <div className="flex flex-col h-[12%]">
@@ -231,8 +235,8 @@ const SignUpVolunteer = () => {
             </div>
             <div className="flex flex-col gap-1 h-[10%]">
              
-              <button className="flex items-center justify-center text-lg font-semibold  w-full h-full bg-[#37B6FF] text-white p-4 outline-none rounded-full will-change-transform duration-200 ease-out hover:scale-105  shadow-sm">
-                Sign Up
+              <button type="submit" disabled={loader} className="flex items-center justify-center text-lg font-semibold  w-full h-full bg-[#37B6FF] text-white p-4 outline-none rounded-full will-change-transform duration-200 ease-out hover:scale-105  shadow-sm">
+               { loader ? (<div className="h-5 w-5 rounded-full border-2 border-white border-t-transparent animate-spin"></div>) : "Sign Up"}
               </button>
             </div>
           </form>

@@ -187,6 +187,9 @@ export default function VolunteerForm() {
               <option name="expertise" value="Communication & IT">
                 Communication and IT
               </option>
+              <option name="expertise" value="Logistics and Transportation">
+              Logistics and Transportation
+              </option>
             </select>
           </div>
 

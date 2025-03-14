@@ -60,7 +60,7 @@ export default function HeroSection() {
             </Link>
             <Link
               to="/volunteer/form"
-              className="text-white rounded-md bg-blue-500 shadow-lg md:px-4 md:py-1 lg:px-4 lg:py-1 px-2 flex justify-center items-center"
+              className="text-white rounded-md bg-[#37B6FF] shadow-lg md:px-4 md:py-1 lg:px-4 lg:py-1 px-2 flex justify-center items-center"
             >
               Become Volunteer
             </Link>

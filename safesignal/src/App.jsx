@@ -1,4 +1,3 @@
-import BackgroundSetter from "./background/background";
 
 import HeroSection from "./HeroSection";
 import Map from "./Component/map";
