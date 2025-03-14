@@ -1,20 +1,25 @@
 import { IoMdMenu } from "react-icons/io";
 import { useContext, useState } from "react";
 import Logo from "../assets/images-disaster/Logo.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { modalContext } from "../utils/signUpModalContext.jsx";
-// import SignUpModal from "./utils/modalContext";
+
 
 export default function Navbar() {
-  const { showModal, setShowModal } = useContext(modalContext);
+  const {  setShowModal } = useContext(modalContext);
+  const { setLogInContext } = useContext(modalContext);
   const [onClickMenu, setOnClickMenu] = useState(false);
+  const location=useLocation();
+
+  const isResetPasswordPage = ["/reset-password/","/victim/form","/volunteer/form"].some((path)=>location.pathname.startsWith(path));
+  const navbarStyle= isResetPasswordPage ? "bg-black" : "bg-transparent"
 
   function HandleClick() {
     setOnClickMenu(!onClickMenu);
   }
 
   return (
-    <div className=" md:pl-4 pl-4 lg:pl-6  flex justify-between items-center sm:items-center pr-4 absolute  z-50 h-[5rem] w-[100%] lg:max-w-screen ">
+    <div className={`${navbarStyle} md:pl-4 pl-4 lg:pl-6  flex justify-between items-center sm:items-center pr-4 absolute  z-50 h-[5rem] w-[100%] lg:max-w-screen `}>
       <img src={Logo} className="h-full flex-[0.07]" />
       {/* Mobile Navbar */}
       <div className="relative md:hidden">
@@ -74,9 +79,12 @@ export default function Navbar() {
         >
           Register
         </button>
-        <div className="hover:text-blue-400 text-white font-[400] transition-transform  text-center">
+        <button 
+          onClick={() => setLogInContext(true)}
+          
+        className="hover:text-blue-400 text-white font-[400] transition-transform  text-center">
           LogIn
-        </div>
+        </button>
       </div>
     </div>
   );

@@ -2,8 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors"
-import { formRouter } from "./formController/formRouter.js"
-import { userRouter } from "./formController/userRouter.js";
+import { formRouter } from "./routes/formRouter.js"
+import { userRouter } from "./routes/userRouter.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();

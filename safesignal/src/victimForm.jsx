@@ -140,6 +140,9 @@ export default function VictimForm(){
         <option name="disasterType" value="Earthquake">Earthquake</option>
         <option name="disasterType" value="Draught">Draught</option>
         <option name="disasterType" value="Tsunami">Tsunami</option>
+        <option name="disasterType" value="Landslde">Landslide</option>
+        <option name="disasterType" value="Wildfire">Wildfire</option>
+        <option name="disasterType" value="Avalanche">Avalanche</option>
         </select>
         </div>
 

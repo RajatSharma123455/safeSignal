@@ -4,6 +4,7 @@ import { victim, volunteer } from "../db/signupSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { configDotenv } from "dotenv";
+import { forgetPassword,verifyForgotPassword,resetPassword } from "../Controllers/authController.js";
 
 configDotenv();
 export const userRouter = express.Router();
@@ -79,20 +80,19 @@ userRouter.post("/login", async (req, res) => {
          userPassword = isVolunteerExist.password;
         userId = isVolunteerExist._id;
     }else{
-      throw new Error("user not exist");
+      throw new Error("User not exist");
     }
    
     const isPassword = await bcrypt.compare(password, userPassword);
 
     if (!isPassword) {
-      throw new Error("invalid password");
+      throw new Error("Invalid password");
     } else {
         
       const token = jwt.sign({ _id: userId._id }, secretKey, {
         expiresIn: "8h",
       });
-      console.log("just below password")
-
+      
       res.cookie("token", token, {expires:new Date(Date.now() + 8 * 3600000)});
       res.status(200).json({ msg: "login Successfuly" });
     }
@@ -100,7 +100,14 @@ userRouter.post("/login", async (req, res) => {
     res.status(404).json({ error: error.message });
   }
 });
+
+userRouter.post("/forgot-password", forgetPassword);
+userRouter.get("/reset-password/:token", verifyForgotPassword);
+userRouter.post("/reset-password/:token", resetPassword);
+
 userRouter.post("/logout",(req,res)=>{
     res.cookie("token",null,{expires:new Date(Date.now())});
     res.status(200).json({msg:"logout successfully"})
 })
+
+

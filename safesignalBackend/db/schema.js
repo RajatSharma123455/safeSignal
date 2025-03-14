@@ -24,7 +24,7 @@ const victimFormSchema = new mongoose.Schema({
       lowercase:true,
       required:true,
       enum:{
-        values:["flood","cyclone","earthquake","tsunami","draught"],
+        values:["flood","cyclone","earthquake","tsunami","draught","landslide","wildfire","avalanche"],
         message:"${VALUE} IS NOT SUPPORTED"
       }
     },
@@ -93,10 +93,10 @@ const volunteerFormSchema = new mongoose.Schema(
     max: new Date('2100-01-01'),
   },
     expertise: {
-      type: String,
+      type: [String],
       lowercase:true,
       enum:{
-        values:["medical and health services","search and rescue","shelter support","food and water","communication and it"],
+        values:["medical and health services","search and rescue","shelter support","food and water","communication and it","logistics and transportation"],
         message:"${VALUE} IS NOT SUPPORTED"
       }
     },
