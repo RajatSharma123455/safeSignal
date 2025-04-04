@@ -1,4 +1,3 @@
-import React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -9,21 +8,24 @@ const ForgotPassword = () => {
     email: "",
   });
   const [error, setError] = useState({});
-  const [loader,setLoader]=useState(false)
+  const [loader, setLoader] = useState(false);
 
-  async function ForgotPasswordaAPI() {
+  async function ForgotPasswordAPI() {
     try {
       const response = await axios.post(
         "http://localhost:3000/forgot-password",
-        emailForForgotPassword
+        emailForForgotPassword,
+        { withCredentials: true }
       );
       if (response.status === 200) {
         console.log("successfully submitted", response.data);
-        toast.success(response.data.message);
         setLoader(false);
+        toast.success(response.data.message);
       }
     } catch (error) {
-      console.error(error.response.data.error);
+      setLoader(false);
+      toast.error(error.response.data.error);
+      console.error(error);
     }
   }
   let countError = {};
@@ -34,7 +36,9 @@ const ForgotPassword = () => {
     ) {
       countError.email = "Enter the valid email!";
     }
+
     setError(countError);
+    setLoader(false);
     return Object.keys(countError).length === 0;
   }
 
@@ -48,41 +52,46 @@ const ForgotPassword = () => {
     e.preventDefault();
     setLoader(true);
     if (Validation()) {
-      try{
-      await ForgotPasswordaAPI();
-      setEmailForForgotPassword({
-        email: "",
-      });
-    }catch(error){
-      console.error(" Forgort password request failed ",error.message)
-    }
+      try {
+        await ForgotPasswordAPI();
+        setEmailForForgotPassword({
+          email: "",
+        });
+      } catch (error) {
+        console.error(" Forgort password request failed ", error.message);
+      }
     }
   }
 
   return (
-    <div className="h-[40%] w-full flex flex-col items-center rounded-lg justify-evenly">
-    <form onSubmit={(e) => HandleSubmit(e)} className=" h-full w-full flex flex-col items-center justify-evenly">
-      <div className="h-[25%] w-full flex flex-col items-center">
-      <input
-        type="email"
-        name="email"
-        value={emailForForgotPassword.email}
-        placeholder="Email"
-        onChange={(e) => HandleChange(e)}
-        className="h-full w-[90%] outline-none rounded-lg p-4 bg-[#F5F5F5] text-slate-900 will-change-transform duration-200 ease-out hover:scale-105 focus:border-2  focus:border-sky-300 shadow-sm "
-      ></input>
-      {error.email && (
-                <p className="text-red-400 text-sm">{error.email}</p>
-              )}
-      </div>
-
-      <button
-      type="submit"
-        disabled={loader}
-        className="h-[25%] w-[90%] outline-none rounded-full bg-[#37B6FF] flex justify-center items-center font-semibold text-white will-change-transform duration-100 ease-out hover:scale-105 shadow-sm"
+    <div className="h-[60%] w-full flex flex-col items-center rounded-lg  justify-evenly">
+      <form
+        onSubmit={(e) => HandleSubmit(e)}
+        className=" h-full w-full flex flex-col items-center gap-12 p-2 justify-evenly"
       >
-         {loader ?  (<div className="h-5 w-5 rounded-full border-2 flex justify-center border-white border-t-transparent animate-spin"></div>) : "Request password change"}
-      </button>
+        <div className="h-[25%] w-full flex flex-col items-center">
+          <input
+            type="email"
+            name="email"
+            value={emailForForgotPassword.email}
+            placeholder="Email address"
+            onChange={(e) => HandleChange(e)}
+             className="w-full pl-10 pr-3 py-2 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg outline-none transition-all duration-200 focus:border-[#37B6FF] focus:ring-2 focus:ring-[#37B6FF]/20"
+          ></input>
+          {error.email && <p className="text-red-400 text-sm">{error.email}</p>}
+        </div>
+
+        <button
+          type="submit"
+          disabled={loader}
+          className="w-full pl-10 pr-3 py-2 text-xs text-white font-semibold text-center sm:text-sm border  rounded-lg outline-none transition-all duration-200 focus:ring-2 focus:ring-[#37B6FF]/20 bg-[#37B6FF] "
+        >
+          {loader ? (
+            <div className="h-5 w-5 rounded-full border-2 flex justify-center border-white border-t-transparent animate-spin"></div>
+          ) : (
+            "Request password change"
+          )}
+        </button>
       </form>
     </div>
   );

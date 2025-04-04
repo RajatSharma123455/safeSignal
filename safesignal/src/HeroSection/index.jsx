@@ -7,13 +7,13 @@ import Alerts from "../assets/Icons/Alerts.png";
 import Help from "../assets/Icons/Help.png";
 import Map from "../assets/Icons/Map.png";
 import Volunteer from "../assets/Icons/volunteer.png";
-
+import axios from "axios";
 import "react-multi-carousel/lib/styles.css";
 import BackgroundSlideshow from "../background/background";
+import { useEffect } from "react";
 
 const responsive = {
   superLargeDesktop: {
-   
     breakpoint: { max: 4000, min: 3000 },
     items: 1,
   },
@@ -36,7 +36,6 @@ const sliderImageUrl = [image1, image2, image3];
 export default function HeroSection() {
   return (
     <div>
-
       <BackgroundSlideshow />
       <div className="absolute inset-0 h-[80vh] bg-black opacity-75"></div>
       <div className="inset-0 flex flex-col items-center justify-center h-[80vh] gap-5 absolute w-full">
@@ -97,7 +96,7 @@ export default function HeroSection() {
               <p className="flex justify-center text-xl font-bold">
                 Report & Request Help
               </p>
-              <p>Instantly report incidents orrequest aid.</p>
+              <p>Instantly report incidents or request aid.</p>
             </div>
           </div>
           <div className="flex-1  flex justify-center flex-col items-center gap-5">
