@@ -17,7 +17,7 @@ import Footer from "./Footer/Footer.jsx";
 import MapVolunteerComponent from "./map/mapVolunteerComponent.jsx";
 import MapVictimComponent from "./map/mapVictimComponent.jsx";
 import ContactUs from "./Component/ContactUs.jsx";
-import Aboutus from "./Component/Aboutus.jsx";
+import Aboutus from "./Component/AboutUs.jsx";
 import UserProfile from "./Component/UserProfile.jsx";
 import SignupModalContext from "./utils/signUpModalContext.jsx";
 import ProtectedRoute from "./protectedRoute.jsx";

@@ -1,7 +1,7 @@
 import React from "react";
 
-const Aboutus = () => {
+const AboutUs = () => {
   return <div className="min-h-full">Aboutus</div>;
 };
 
-export default Aboutus;
+export default AboutUs;
