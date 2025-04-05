@@ -18,9 +18,9 @@ const LogInModal = () => {
   } = useContext(modalContext);
   const [forgotPassword, setForgotPassword] = useState(false);
   const [loader, setLoader] = useState(false);
-  console.log("login", logInContext);
   const [validationError, setValidationError] = useState({});
 
+  
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const passwordRegex =
     /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
