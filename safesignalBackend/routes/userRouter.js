@@ -173,7 +173,6 @@ userRouter.post("/reset-password/:token", resetPassword);
 userRouter.post("/search-volunteers", async (req, res) => {
   try {
     const { lat, long } = req.body;
-    // console.log("User loc = ", lat, long);
     var volunteers = [];
     if (lat && long) {
       volunteers = await volunteerForm.find({
@@ -203,7 +202,6 @@ userRouter.post("/search-volunteers", async (req, res) => {
 
 userRouter.get("/search-volunteers", async (req, res) => {
   const queryParam = req.query;
-  console.log("QueryParam", queryParam);
 
   try {
     const { lat, lng, distanceRange, services } = req.query;
@@ -214,7 +212,6 @@ userRouter.get("/search-volunteers", async (req, res) => {
       serviesArray = [services.trim().toLowerCase()];
     }
 
-    // console.log("User loc = ", lat, lng, distanceRange, serviesArray);
     if (lat && lng) {
       const volunteers = await volunteerForm.find({
         location: {

@@ -11,12 +11,14 @@ import { requestModel } from "./db/requestModel.js";
 
 dotenv.config();
 const app = express();
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 const dbPassword = process.env.DB_PASSWORD;
 const dbUsername = process.env.DB_USERNAME;
+const PORT= process.env.PORT || 3000 ;
 
 async function dbConnect() {
   try {
@@ -42,4 +44,10 @@ app.use("/", userRouter);
 app.use("/", formRouter);
 app.use("/", messageRouter);
 
-app.listen(3000);
+app.listen(PORT, (error) => {
+  if (error) {
+    console.error("Error starting the server:", error.message);
+  } else {
+    console.log(`Server running on port ${PORT}`);
+  }
+});

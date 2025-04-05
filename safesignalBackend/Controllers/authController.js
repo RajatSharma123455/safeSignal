@@ -51,19 +51,11 @@ export const verifyForgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    console.log(
-      "update Pass",
-      req.body.updatePassword,
-      "token",
-      req.params.token
-    );
 
     const isValid = await resetPasswordService(
       req.body.updatePassword,
       req.params.token
     );
-
-    console.log("isValid", isValid);
 
     if (isValid) {
       res.status(200).json({
