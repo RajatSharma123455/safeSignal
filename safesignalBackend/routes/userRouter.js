@@ -11,7 +11,7 @@ import {
   forgetPassword,
   verifyForgotPassword,
   resetPassword,
-} from "../controllers/authController.js";
+} from "../controller/authController.js";
 import nodemailer from "nodemailer";
 import AdminMiddleware from "../utils/adminMiddleware.js";
 import mongoose from "mongoose";
@@ -51,10 +51,9 @@ userRouter.get("/", AdminMiddleware, async (req, res) => {
 userRouter.post("/signup/victim", async (req, res) => {
   try {
     SignupValidation(req);
-
     const { name, email, password, mobile } = req.body;
-
-    const isExistVictim = await victim.findOne({ email });
+    const isExistVictim = await victim.findOne({ email });  
+    
     const isExistVolunteer = await volunteer.findOne({ email });
     if (isExistVictim) {
       throw new Error("User already register");
