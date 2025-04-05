@@ -20,7 +20,6 @@ import ContactUs from "./Component/ContactUs.jsx";
 import Aboutus from "./Component/AboutUs.jsx";
 import UserProfile from "./Component/UserProfile.jsx";
 import SignupModalContext from "./utils/signUpModalContext.jsx";
-import ProtectedRoute from "./protectedRoute.jsx";
 
 const AppLayout = () => {
   return (
