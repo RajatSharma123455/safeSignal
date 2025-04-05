@@ -14,7 +14,7 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: "https://safe-signal-webapp.onrender.com", credentials: true }));
 
 const dbPassword = process.env.DB_PASSWORD;
 const dbUsername = process.env.DB_USERNAME;
