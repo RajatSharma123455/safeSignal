@@ -146,6 +146,8 @@ userRouter.post("/login", async (req, res) => {
     res.cookie("token", token, {
       expires: new Date(Date.now() + 8 * 3600000),
       httpOnly: true,
+        secure:true,
+        sameSite:"None"
     });
     return res.status(200).json({
       success: true,
@@ -159,7 +161,11 @@ userRouter.post("/login", async (req, res) => {
 
 userRouter.post("/logout", AdminMiddleware, (req, res) => {
   try {
-    res.cookie("token", null, { expires: new Date(Date.now()) });
+    res.cookie("token", null, { expires: new Date(Date.now()),
+      httpOnly:true,
+      secure:true,
+      sameSite:"None"
+    });
     res.status(200).json({ msg: "logout successfully" });
   } catch (error) {
     res.status(404).json({ error: error.message });

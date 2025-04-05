@@ -31,7 +31,11 @@ export const verifyForgotPassword = async (req, res) => {
   try {
     const newToken = await verifyForgotPasswordService(req.params);
     if (newToken) {
-      res.cookie("token", newToken);
+      res.cookie("token", newToken,{
+        httpOnly:true,
+        secure:true,
+        sameSite:"None"
+      });
       res.status(200).send({
         success: true,
         message: "Email verified successfully",
