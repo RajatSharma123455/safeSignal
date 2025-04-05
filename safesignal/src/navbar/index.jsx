@@ -19,12 +19,10 @@ export default function Navbar() {
     userRole,
   } = useContext(modalContext);
 
-  console.log("userInfo = ", userInfo);
 
   const [onClickMenu, setOnClickMenu] = useState(false);
   const navigate = useNavigate();
   const [showLogOutBox, setShowLogOutBox] = useState(false); // State to control logout box
-  console.log("showLogOutBox on top", showLogOutBox);
   const { pathname } = useLocation();
   const location =
     pathname !== "/" ? "bg-black relative" : "bg-transparent absolute";
@@ -34,14 +32,12 @@ export default function Navbar() {
   }
   function handleLogInLogout() {
     if (logInAndOutButton === "Log Out") {
-      console.log("Toggling logout box");
       setShowLogOutBox((prev) => !prev);
     } else if (logInAndOutButton === "Log In") {
       setLogInContext((prev) => !prev);
     }
   }
 
-  console.log("showLogOutBox at bottom", userRole);
   return (
     <div
       className={`${location} md:pl-4 pl-4 lg:pl-6 p-2 flex justify-between items-center sm:items-center pr-4 z-50 h-[6rem] w-[100%] lg:max-w-screen`}

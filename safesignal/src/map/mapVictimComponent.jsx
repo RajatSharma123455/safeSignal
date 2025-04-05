@@ -31,6 +31,7 @@ const volunteerIcon = L.divIcon({
 });
 
 const MapVictimComponent = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const mapRef = useRef(null);
   const routingControlRef = useRef(null);
   const markersRef = useRef([]);
@@ -102,7 +103,6 @@ const MapVictimComponent = () => {
 
       // Add volunteer markers
       allVictims.forEach((victim) => {
-        console.log("Victim => ", victim);
         const popupContent = `
               <div style="font-family: Arial, sans-serif; padding: 5px;">
                 <h3 style=" font-size: 16px; color: #333;">${victim?.victimInfo?.name}</h3>
@@ -159,7 +159,7 @@ const MapVictimComponent = () => {
   const findVictims = async (lat, long) => {
     try {
       const volunteers = await axios.post(
-        "http://localhost:3000/search-victims",
+        `${API_URL}/search-victims`,
         { lat, long }
       );
       setAllVictims(volunteers.data?.data);
@@ -212,12 +212,11 @@ const MapVictimComponent = () => {
     setSearchParams(params);
 
     try {
-      const res = await axios.get("http://localhost:3000/search-victims", {
+      const res = await axios.get(`${API_URL}/search-victims`, {
         params,
       });
       if (res.data?.success) {
         const victims = res.data?.data;
-        console.log("victoms - ", victims);
         setAllVictims(victims);
       }
     } catch (error) {
@@ -265,7 +264,6 @@ const MapVictimComponent = () => {
                     const needs = e.target.checked
                       ? [...filters.needs, need]
                       : filters.needs.filter((s) => s !== need);
-                    console.log("needs selected = ", needs);
                     setFilters({ ...filters, needs });
                   }}
                 />
@@ -288,7 +286,6 @@ const MapVictimComponent = () => {
                     const disasters = e.target.checked
                       ? [...filters.disasters, disaster]
                       : filters.disasters.filter((s) => s !== disaster);
-                    console.log("needs selected = ", disaster);
                     setFilters({ ...filters, disasters });
                   }}
                 />

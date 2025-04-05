@@ -10,10 +10,11 @@ const VictimRequestCard = ({
   selectedVictim,
   setTrigger,
 }) => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const handleAcceptRequest = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/accept-help-request/${request._id}`,
+        `${API_URL}/accept-help-request/${request._id}`,
         {
           withCredentials: true,
         }
@@ -34,12 +35,11 @@ const VictimRequestCard = ({
     }
   };
 
-  console.log(request);
 
   const handleRejectRequest = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/reject-help-request/${request._id}`,
+        `${API_URL}/reject-help-request/${request._id}`,
         {
           withCredentials: true,
         }

@@ -5,6 +5,7 @@ import { useState } from "react";
 export const modalContext = createContext(false);
 
 export default function SignupModalContext({ children }) {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [showModal, setShowModal] = useState(false);
   const [logInContext, setLogInContext] = useState(false);
   const [logInAndOutButton, setLogInAndOutButton] = useState("Log In");
@@ -18,7 +19,7 @@ export default function SignupModalContext({ children }) {
 
   async function CheckUserLoggedIn() {
     try {
-      const response = await axios.get("http://localhost:3000/", {
+      const response = await axios.get(`${API_URL}/`, {
         withCredentials: true,
       });
       if (response.data?.success) {
@@ -29,7 +30,6 @@ export default function SignupModalContext({ children }) {
         await getAllNotifications();
       }
     } catch (error) {
-      console.log("User is not logged in:", error.response?.data?.error);
       setIsUserLoggedIn(false);
     }
   }
@@ -37,7 +37,7 @@ export default function SignupModalContext({ children }) {
   async function getAllNotifications() {
     try {
       const response = await axios.get(
-        "http://localhost:3000/get-notifications",
+        `${API_URL}/get-notifications`,
         {
           withCredentials: true,
         }
@@ -53,7 +53,6 @@ export default function SignupModalContext({ children }) {
     }
   }
 
-  console.log("All notif - ", allNotifications);
 
   return (
     <modalContext.Provider

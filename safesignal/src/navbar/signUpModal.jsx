@@ -6,7 +6,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";import { FaUser, FaEnvelope, FaLock, FaPhone, FaTimes } from "react-icons/fa";
 
+
 const SignUpVolunteer = () => {
+const API_URL = import.meta.env.VITE_API_URL;
   const { showModal, setShowModal, setLogInContext } = useContext(modalContext);
   const [validationError, setValidationError] = useState({});
   const [loader, setLoader] = useState(false);
@@ -35,11 +37,10 @@ const SignUpVolunteer = () => {
   async function SignupVolunteer() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/signup/volunteer",
+        `${API_URL}/signup/volunteer`,
         signupForm
       );
       if (response.status === 200) {
-        console.log("successfully submitted", response.data);
         toast.success("successfully submitted");
 
         setSignupForm({
@@ -48,6 +49,8 @@ const SignUpVolunteer = () => {
           password: "",
           mobile: "",
         });
+        setShowModal(false);
+      setLogInContext(true);
       }
     } catch (error) {
       toast.error(error.response.data.error);
@@ -58,11 +61,10 @@ const SignUpVolunteer = () => {
   async function SignupVictim() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/signup/victim",
+        `${API_URL}/signup/victim`,
         signupForm
       );
       if (response.status === 200) {
-        console.log("successfully submitted", response.data);
         toast.success("successfully submitted");
 
         setSignupForm({
@@ -71,9 +73,11 @@ const SignUpVolunteer = () => {
           password: "",
           mobile: "",
         });
+        setShowModal(false);
+      setLogInContext(true);
       }
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error);
     } finally {
       setLoader(false);
     }
@@ -121,8 +125,7 @@ const SignUpVolunteer = () => {
       } else {
         await SignupVolunteer();
       }
-      setShowModal(false);
-      setLogInContext(true);
+      
     } else {
       setLoader(false);
     }

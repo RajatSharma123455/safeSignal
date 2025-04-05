@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 
 export default function ResetPassword() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const params = useParams("");
   const navigate = useNavigate();
   const [error, setError] = useState({});
@@ -18,13 +19,11 @@ export default function ResetPassword() {
     async function GetResetPasswordToken() {
       try {
         const response = await axios.get(
-          "http://localhost:3000/reset-password/" + `${params.token}`
+          `${API_URL}/reset-password/${params.token}`
         );
         const token = response.data;
-        console.log("token", token);
 
         if (response.status === 200) {
-          console.log("successfully submitted", response.data);
           toast.success("Email verified successfully");
         }
       } catch (error) {
@@ -38,14 +37,12 @@ export default function ResetPassword() {
   async function UpdateNewPassword() {
     try {
       const response = await axios.post(
-        `http://localhost:3000/reset-password/${params.token}`,
+        `${API_URL}/reset-password/${params.token}`,
         newPassword,
         { withCredentials: true }
       );
 
-      console.log("response", response);
       if (response.status === 200) {
-        console.log("successfully updated", response.data);
         toast.success(response.data.message);
         setLoader(false);
 

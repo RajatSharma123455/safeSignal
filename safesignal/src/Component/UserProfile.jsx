@@ -5,6 +5,8 @@ import NoData from "../assets/Icons/No Data.svg";
 import { toast } from "react-toastify";
 
 const ProfilePage = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
+
   // State for user data
   const { userRole } = useContext(modalContext);
   const [userData, setUserData] = useState({});
@@ -18,7 +20,7 @@ const ProfilePage = () => {
   }, []);
   const getUserProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/user-profile", {
+      const res = await axios.get(`${API_URL}/user-profile`, {
         withCredentials: true,
       });
       if (res.data?.success) {
@@ -29,12 +31,11 @@ const ProfilePage = () => {
       toast.error("Something went wrong, Please try again! " + error.message);
     }
   };
-  console.log("All req - ", allRequest);
 
   const handleCancelRequest = async (request) => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/cancel-help-request/${request._id}`,
+        `${API_URL}/cancel-help-request/${request._id}`,
         {
           withCredentials: true,
         }
@@ -56,7 +57,7 @@ const ProfilePage = () => {
   const handleCompleteRequest = async (request) => {
     try {
       const res = await axios.patch(
-        `http://localhost:3000/complete-help-request/${request._id}`,
+        `${API_URL}/complete-help-request/${request._id}`,
         {},
         {
           withCredentials: true,
@@ -78,7 +79,7 @@ const ProfilePage = () => {
   const updateUserProfile = async () => {
     try {
       const res = await axios.patch(
-        "http://localhost:3000/update-user-profile",
+        `${API_URL}/update-user-profile`,
         {
           name: userData?.name,
         },
@@ -107,7 +108,6 @@ const ProfilePage = () => {
     });
   };
 
-  console.log(" all req = ", allRequest);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -118,7 +118,7 @@ const ProfilePage = () => {
   const handleAcceptRequest = async (request) => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/accept-help-request/${request._id}`,
+        `${API_URL}/accept-help-request/${request._id}`,
         {
           withCredentials: true,
         }
@@ -139,7 +139,7 @@ const ProfilePage = () => {
   const handleRejectRequest = async (request) => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/reject-help-request/${request._id}`,
+        `${API_URL}/reject-help-request/${request._id}`,
         {
           withCredentials: true,
         }

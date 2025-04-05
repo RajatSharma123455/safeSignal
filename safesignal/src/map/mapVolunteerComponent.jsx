@@ -33,6 +33,7 @@ const volunteerIcon = L.divIcon({
 });
 
 const MapVolunteerComponent = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const mapRef = useRef(null);
   const routingControlRef = useRef(null);
   const markersRef = useRef([]);
@@ -65,7 +66,6 @@ const MapVolunteerComponent = () => {
     const R = 6371; // Radius of the Earth in km
     const dLat = (lat2 - lat1) * (Math.PI / 180);
     const dLon = (lon2 - lon1) * (Math.PI / 180);
-    console.log("cal - ", dLat, dLon);
 
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -155,7 +155,7 @@ const MapVolunteerComponent = () => {
   const findVolunteers = async (lat, long) => {
     try {
       const volunteers = await axios.post(
-        "http://localhost:3000/search-volunteers",
+        `${API_URL}/search-volunteers`,
         { lat, long }
       );
       setAllVolunteers(volunteers.data?.data);
@@ -214,7 +214,7 @@ const MapVolunteerComponent = () => {
     };
 
     try {
-      const res = await axios.get(`http://localhost:3000/search-volunteers`, {
+      const res = await axios.get(`${API_URL}/search-volunteers`, {
         params,
       });
       setAllVolunteers(res.data?.data);
@@ -285,7 +285,6 @@ const MapVolunteerComponent = () => {
                       const services = e.target.checked
                         ? [...filters.services, service]
                         : filters.services.filter((s) => s !== service);
-                      console.log("services selected = ", services);
                       setFilters({ ...filters, services });
                     }}
                     className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
@@ -386,7 +385,8 @@ const MapVolunteerComponent = () => {
                           </span>
                         )}
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex-col lg:flex-row justify-between items-center">
+                      <div>
                         {victimCords.lat &&
                           victimCords.lng &&
                           volunteer.location?.coordinates[0] &&
@@ -401,6 +401,7 @@ const MapVolunteerComponent = () => {
                               km away approx. (use Map for precise location)
                             </span>
                           )}
+                      </div>
                         <button
                           onClick={() => raiseRequestHandler(volunteer)}
                           className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded-md transition"

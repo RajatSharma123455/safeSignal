@@ -5,6 +5,7 @@ import axios from "axios";
 import { MdDelete } from "react-icons/md";
 
 const NotificationPopup = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const { allNotifications, setAllNotifications } = useContext(modalContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isNtfRead, setIsNtfRead] = useState(false);
@@ -13,7 +14,7 @@ const NotificationPopup = () => {
   async function getAllNotifications() {
     try {
       const response = await axios.get(
-        "http://localhost:3000/get-notifications",
+        `${API_URL}/get-notifications`,
         {
           withCredentials: true,
         }
@@ -75,7 +76,7 @@ const NotificationPopup = () => {
   async function handleAllNotifcationRead() {
     try {
       const res = await axios.patch(
-        `http://localhost:3000/mark-all-notification-read`,
+        `${API_URL}/mark-all-notification-read`,
         {},
         {
           withCredentials: true,
@@ -94,7 +95,7 @@ const NotificationPopup = () => {
     if (noti.isRead === false) {
       try {
         const res = await axios.get(
-          `http://localhost:3000/mark-notification-read/${noti._id}`,
+          `${API_URL}/mark-notification-read/${noti._id}`,
           {
             withCredentials: true,
           }
@@ -114,7 +115,7 @@ const NotificationPopup = () => {
   const handleDeleteNotification = async (noti) => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/delete-notification/${noti._id}`,
+        `${API_URL}/delete-notification/${noti._id}`,
         {
           withCredentials: true,
         }
@@ -128,7 +129,6 @@ const NotificationPopup = () => {
     }
   };
 
-  console.log("All Notifications => ", allNotifications);
 
   return (
     <div className="relative" ref={popupRef}>

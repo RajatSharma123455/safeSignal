@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function VictimForm() {
+  const API_URL = import.meta.env.VITE_API_URL;
+  
   const [error, setError] = useState({});
   const [loader, setLoader] = useState(false);
   const [showLocation, setShowLocation] = useState(null);
@@ -45,7 +47,6 @@ export default function VictimForm() {
         const response = await axios.get(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${long}`
         );
-        console.log("location", response.data.display_name);
 
         setShowLocation(response.data.display_name);
         setFormData((prev) => ({
@@ -58,13 +59,11 @@ export default function VictimForm() {
     });
   }, []);
 
-  console.log("State = ", state);
 
   const sendOutRequest = async () => {
-    console.log("send Email");
     try {
       const response = await axios.post(
-        "http://localhost:3000/emergency-request",
+        `${API_URL}/emergency-request`,
         {
           email: state.volunteer?.email,
           to: state.volunteer?.phone,
@@ -80,25 +79,22 @@ export default function VictimForm() {
         }
       );
 
-      console.log("Mail send => ", response);
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log("Form Data => ", formData);
 
   async function PostingVictimForm() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/victim/form",
+        `${API_URL}/victim/form`,
         formData,
         {
           withCredentials: true,
         }
       );
       if (response.status === 200) {
-        console.log("successfully submitted", response.data);
         await sendOutRequest();
         // sendOutWatsapp();
         toast.success("submitted successfully!");

@@ -4,8 +4,6 @@ import SignupModalContext, { modalContext } from "./utils/signUpModalContext";
 
 const ProtectedRoute = ({ children }) => {
   const { isUserLoggedIn } = useContext(modalContext);
-  console.log("chlgya ");
-  console.log("chla ", isUserLoggedIn);
 
   if (!isUserLoggedIn) {
     return Navigate({ to: "/" });

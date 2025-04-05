@@ -5,19 +5,19 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const LogOut = ({ setIsOpen }) => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const { setLogInAndOutButton, setIsUserLoggedIn, setUserInfo } =
     useContext(modalContext);
   async function LogOutUser() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/logout",
+        `${API_URL}/logout`,
         {},
         { withCredentials: true }
       );
 
       if (response.status === 200) {
-        console.log("Logout successful:", response);
         toast.success("Logout successfully");
         setLogInAndOutButton("Log In");
         setIsUserLoggedIn(false);

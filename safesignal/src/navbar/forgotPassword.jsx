@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 
 const ForgotPassword = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const [emailForForgotPassword, setEmailForForgotPassword] = useState({
     email: "",
@@ -13,12 +14,11 @@ const ForgotPassword = () => {
   async function ForgotPasswordAPI() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/forgot-password",
+        `${API_URL}/forgot-password`,
         emailForForgotPassword,
         { withCredentials: true }
       );
       if (response.status === 200) {
-        console.log("successfully submitted", response.data);
         setLoader(false);
         toast.success(response.data.message);
       }

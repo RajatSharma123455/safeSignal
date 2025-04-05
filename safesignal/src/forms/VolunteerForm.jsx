@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function VolunteerForm() {
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [error, setError] = useState({});
   const [showLocation, setShowLocation] = useState(null);
   const [loader, setLoader] = useState(false);
@@ -41,7 +43,6 @@ export default function VolunteerForm() {
         const response = await axios.get(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${long}`
         );
-        console.log("location", response.data.display_name);
 
         setShowLocation(response.data.display_name);
       } catch (error) {
@@ -51,10 +52,9 @@ export default function VolunteerForm() {
   }, []);
 
   async function PostingSignup() {
-    console.log("Fomr Data=> ", formData);
     try {
       const response = await axios.post(
-        "http://localhost:3000/volunteer/form",
+        `${API_URL}/volunteer/form`,
         formData,
 
         {
@@ -63,7 +63,6 @@ export default function VolunteerForm() {
       );
 
       if (response.status === 200) {
-        console.log("successfully submitted", response.data);
         toast.success("successfully submitted");
 
         navigate("/map/victim");

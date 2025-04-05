@@ -8,6 +8,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { FiMail, FiLock, FiUserPlus } from "react-icons/fi";
 
 const LogInModal = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const {
     logInContext,
     setLogInContext,
@@ -41,7 +42,7 @@ const LogInModal = () => {
   async function LogInPosting() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/login",
+        `${API_URL}/login`,
         logInForm,
         {
           withCredentials: true,
