@@ -1,2 +1,3 @@
-2025/04/05-15:12:57.497 2d00 Creating DB C:\Users\Rajat Sharma\Desktop\Safesignal Project\safesignalBackend\.wwebjs_auth\session\Default\Session Storage since it was missing.
-2025/04/05-15:12:57.512 2d00 Reusing MANIFEST C:\Users\Rajat Sharma\Desktop\Safesignal Project\safesignalBackend\.wwebjs_auth\session\Default\Session Storage/MANIFEST-000001
+2025/04/05-16:16:21.065 29c8 Reusing MANIFEST C:\Users\Rajat Sharma\Desktop\Safesignal Project\safesignalBackend\.wwebjs_auth\session\Default\Session Storage/MANIFEST-000001
+2025/04/05-16:16:21.066 29c8 Recovering log #3
+2025/04/05-16:16:21.066 29c8 Reusing old log C:\Users\Rajat Sharma\Desktop\Safesignal Project\safesignalBackend\.wwebjs_auth\session\Default\Session Storage/000003.log 
